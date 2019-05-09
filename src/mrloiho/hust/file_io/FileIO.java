@@ -28,7 +28,6 @@ public class FileIO {
         BufferedReader br = new BufferedReader(inputStreamReader);
         String line = new String();
         while ((line = br.readLine()) != null) {
-            System.out.println("1111+"+ line);
             if (line.equals("1")) {
                 Dictionary d = new Dictionary();
                 d.setWordOrigin(br.readLine());

@@ -5,19 +5,24 @@
  */
 package mrloiho.hust.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Mr Loi Ho
  */
 public class Dictionary {
-    private String wordOrigin;
-    private String wordMean;
-    private String wordType;
 
-    public Dictionary(String wordOrigin, String wordMean, String wordType) {
+    private String wordOrigin;
+    private String wordSpelling;
+    private ArrayList<String> wordTypes = new ArrayList<String>();
+    private ArrayList<String> wordEquals = new ArrayList<String>();
+    private ArrayList<String> wordMeans = new ArrayList<String>();
+    private ArrayList<WordEqual> wordEqualList= new ArrayList<WordEqual>();
+
+    public Dictionary(String wordOrigin, String wordSpelling) {
         this.wordOrigin = wordOrigin;
-        this.wordMean = wordMean;
-        this.wordType = wordType;
+        this.wordSpelling = wordSpelling;
     }
 
     public Dictionary() {
@@ -27,24 +32,49 @@ public class Dictionary {
         return wordOrigin;
     }
 
-    public String getWordMean() {
-        return wordMean;
-    }
-
-    public String getWordType() {
-        return wordType;
-    }
-
     public void setWordOrigin(String wordOrigin) {
         this.wordOrigin = wordOrigin;
     }
 
-    public void setWordMean(String wordMean) {
-        this.wordMean = wordMean;
+    public String getWordSpelling() {
+        return wordSpelling;
     }
 
-    public void setWordType(String wordType) {
-        this.wordType = wordType;
+    public void setWordSpelling(String wordSpelling) {
+        this.wordSpelling = wordSpelling;
     }
+
+    public ArrayList<String> getWordTypes() {
+        return wordTypes;
+    }
+
+    public void setWordTypes(ArrayList<String> wordTypes) {
+        this.wordTypes = wordTypes;
+    }
+
+    public ArrayList<String> getWordEquals() {
+        return wordEquals;
+    }
+
+    public void setWordEquals(ArrayList<String> wordEquals) {
+        this.wordEquals = wordEquals;
+    }
+
+    public ArrayList<String> getWordMeans() {
+        return wordMeans;
+    }
+
+    public void setWordMeans(ArrayList<String> wordMeans) {
+        this.wordMeans = wordMeans;
+    }
+
+    public ArrayList<WordEqual> getWordEqualList() {
+        return wordEqualList;
+    }
+
+    public void setWordEqualList(ArrayList<WordEqual> wordEqualList) {
+        this.wordEqualList = wordEqualList;
+    }
+    
     
 }
