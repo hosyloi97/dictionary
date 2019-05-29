@@ -50,42 +50,38 @@ public class FileIO {
             Dictionary d = new Dictionary();
             int index = 0;
             String temp = new String();
-            if ((index = line.indexOf("##")) >= 0) {
-                d.setWordOrigin(line.substring(0, index).trim());
-                line = line.substring(index + 2, line.length()).trim();
-            }
-            if ((index = line.indexOf("#*")) >= 0) {
-                d.setWordSpelling(line.substring(0, index).trim());
-                line = line.substring(index + 2, line.length()).trim();
-            }
-            if (checkType(line)) {
-                index = line.indexOf("|-");
-                temp = line.substring(0, index).trim();
-                line = line.substring(index, line.length()).trim();
-                d.setWordType(temp);
-            }
-            while (!line.isEmpty()) {
-                if ((index = line.indexOf("|-")) >= 0) {
-                    int newIndex = line.indexOf(";");
-                    if (newIndex >= 0) {
-                        temp = line.substring(2, newIndex);
-                        line = line.substring(newIndex + 1, line.length());
-                        d.wordMeans.add(temp);
-                    } else {
-                        temp = line.substring(2, line.length()).trim();
-                        d.wordMeans.add(temp);
-                        line = "";
-                    }
-                } else {
-                    temp = line.substring(0, line.length()).trim();
+        if ((index = line.indexOf("##")) >= 0) {
+            d.setWordOrigin(line.substring(0, index).trim());
+            line = line.substring(index + 2, line.length()).trim();
+        }
+        if ((index = line.indexOf("#*")) >= 0) {
+            d.setWordSpelling(line.substring(0, index).trim());
+            line = line.substring(index + 2, line.length()).trim();
+        }
+
+        if (checkType(line)) {
+            index = line.indexOf("|-");
+            temp = line.substring(0, index).trim();
+            line = line.substring(index, line.length()).trim();
+            d.setWordType(temp);
+        }
+        while (!line.isEmpty()) {
+            if ((index = line.lastIndexOf("|-")) >= 0) {
+//                int newIndex = line.indexOf(";");
+//                if (newIndex >= 0) {
+                    temp = line.substring(index+2, line.length());
+                    line = line.substring(0, index);
                     d.wordMeans.add(temp);
-                    line = "";
-                }
             }
+ else {
+                temp = line.substring(0, line.length()).trim();
+                d.wordMeans.add(temp);
+                line = "";
+            }
+        }
             i = i + 1;
             System.out.println("i: " + i);
             listDics.add(d);
-//            }
         }
         fileInputStream.close();
         br.close();

@@ -55,19 +55,14 @@ public class DemoString {
             d.setWordType(temp);
         }
         while (!line.isEmpty()) {
-            if ((index = line.indexOf("|-")) >= 0) {
-                int newIndex = line.indexOf(";");
-                if (newIndex >= 0) {
-                    temp = line.substring(2, newIndex);
-                    line = line.substring(newIndex + 1, line.length());
+            if ((index = line.lastIndexOf("|-")) >= 0) {
+//                int newIndex = line.indexOf(";");
+//                if (newIndex >= 0) {
+                    temp = line.substring(index+2, line.length());
+                    line = line.substring(0, index);
                     d.wordMeans.add(temp);
-                }
-                else {
-                temp = line.substring(2, line.length()).trim();
-                d.wordMeans.add(temp);
-                line = "";
             }
-             } else {
+ else {
                 temp = line.substring(0, line.length()).trim();
                 d.wordMeans.add(temp);
                 line = "";
@@ -77,11 +72,9 @@ public class DemoString {
 
     public static void main(String[] args) {
 
-        String temp1 = "albescent##[æl'besənt]#*  tính từ hoá trắng, trở nên trắng";
-        String temp2 = "accommodation address###* danh từ|- địa chỉ tạm";
-        String temp3 = "overreach##[,ouvə'ri:tʃ]#*  ngoại động từ|- vượt qua, vượt tới trước;; với quá xa, với quá cao|- mưu mẹo hơn (ai); cao kế hơn (ai); đánh lừa được (ai)|- vượt quá xa và trượt hẫng (cái gì)";
-        String temp4 = "abhorrently###- xem abhorrent";
-        String temp5 = "abdication##[,æbdi'keiʃn]#*  danh từ|- sự thoái vị, sự từ ngôi|- sự từ bỏ (địa vị, chức vụ, quyền lợi...)";
+        String temp1 = "a-going##[ə'gouiɳ]#*  tính từ & phó từ|- đang chạy, đang chuyển động, đang hoạt động, đang tiến hành";
+        String temp2 = "a-power##['ei'pauə]#*  danh từ|- năng lượng nguyên tử|- cường quốc nguyên tử";
+        String temp3 = "abandonment##[ə'bændənmənt]#*  danh từ|- sự bỏ, sự từ bỏ, sự bỏ rơi, sự ruồng bỏ|- tình trạng bị bỏ rơi, tình trạng bị ruồng bỏ|- sự phóng túng, sự tự do, sự buông thả";
 //        testInput(temp5);
 //        testInput(temp4);
         testInput(temp3);

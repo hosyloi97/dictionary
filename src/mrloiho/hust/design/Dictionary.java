@@ -6,10 +6,20 @@
 package mrloiho.hust.design;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 import mrloiho.hust.file_io.FileIO;
 import static mrloiho.hust.file_io.FileIO.checkType;
 
@@ -20,13 +30,27 @@ import static mrloiho.hust.file_io.FileIO.checkType;
 public class Dictionary extends javax.swing.JFrame {
 
     private static ArrayList<mrloiho.hust.model.Dictionary> listDics = new ArrayList<mrloiho.hust.model.Dictionary>();
-    static String dirName = "F://PROJECT/EasyDictionary/Eng-Vie_database.txt";
+    public static String dirName = "F://PROJECT/EasyDictionary/Eng-Vie_database.txt";
+    public String wordChoosen = "";
+    public Font fontBoldHeader = new Font("Palatino Linotype", Font.BOLD, 20);
+    public Font fontBold = new Font("Palatino Linotype", Font.BOLD, 18);
+    public Font fontIntalic = new Font("Palatino Linotype", Font.ITALIC, 18);
 
     /**
      * Creates new form Dictionary
      */
     public Dictionary() {
         initComponents();
+    }
+
+    public int searchReturnIndex(String word) {
+        int index = 0;
+        for (int i = 0; i < listDics.size(); i++) {
+            if (word.equals(listDics.get(i).getWordOrigin())) {
+                index = i;
+            }
+        }
+        return index;
     }
 
     /**
@@ -43,8 +67,8 @@ public class Dictionary extends javax.swing.JFrame {
         search = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listWords = new javax.swing.JList<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listResults = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -53,10 +77,10 @@ public class Dictionary extends javax.swing.JFrame {
             }
         });
 
-        nameDictionary.setFont(new java.awt.Font("Palatino Linotype", 3, 18)); // NOI18N
+        nameDictionary.setFont(new java.awt.Font("Palatino Linotype", 3, 24)); // NOI18N
         nameDictionary.setText("Eng- Vie Dictionary");
 
-        inputText.setFont(new java.awt.Font("Palatino Linotype", 2, 14)); // NOI18N
+        inputText.setFont(new java.awt.Font("Palatino Linotype", 2, 18)); // NOI18N
         inputText.setForeground(new java.awt.Color(153, 153, 153));
         inputText.setText("Input text here...");
         inputText.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -73,7 +97,7 @@ public class Dictionary extends javax.swing.JFrame {
             }
         });
 
-        search.setFont(new java.awt.Font("Palatino Linotype", 3, 14)); // NOI18N
+        search.setFont(new java.awt.Font("Palatino Linotype", 3, 18)); // NOI18N
         search.setText("Search");
         search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,12 +105,15 @@ public class Dictionary extends javax.swing.JFrame {
             }
         });
 
-        listWords.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
+        listWords.setFont(new java.awt.Font("Palatino Linotype", 0, 18)); // NOI18N
+        listWords.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listWordsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(listWords);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        jScrollPane3.setViewportView(listResults);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -96,17 +123,17 @@ public class Dictionary extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(inputText)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(12, 12, 12))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 272, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(351, 351, 351)
                 .addComponent(nameDictionary)
-                .addGap(248, 248, 248))
+                .addContainerGap(420, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,8 +145,8 @@ public class Dictionary extends javax.swing.JFrame {
                     .addComponent(search))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)))
         );
 
         pack();
@@ -149,17 +176,35 @@ public class Dictionary extends javax.swing.JFrame {
     }//GEN-LAST:event_inputTextActionPerformed
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, inputText);
+//        JOptionPane.showMessageDialog(this, wordChoosen);
+        listResults= new JTextPane();
+        setTextValue(listResults, listDics.get(searchReturnIndex(wordChoosen)).getWordOrigin()+"  ", Color.BLACK);
+        setTextValue(listResults, listDics.get(searchReturnIndex(wordChoosen)).getWordSpelling()+"\n \n", Color.black);
+        setTextValue(listResults, listDics.get(searchReturnIndex(wordChoosen)).wordMeans.get(0).toString(), Color.blue);
     }//GEN-LAST:event_searchActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         listModel = new DefaultListModel<String>();
         listWords.setModel(listModel);
-        for(int i=0; i<listDics.size();i++){
+        for (int i = 0; i < listDics.size(); i++) {
             listModel.addElement(listDics.get(i).getWordOrigin());
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void listWordsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listWordsMouseClicked
+        wordChoosen = listWords.getSelectedValue();
+    }//GEN-LAST:event_listWordsMouseClicked
+
+    private void setTextValue(JTextPane pane, String string, Color color) {
+        StyledDocument doc = pane.getStyledDocument();
+        Style style = pane.addStyle("", null);
+        StyleConstants.setForeground(style, color);
+        try {
+            doc.insertString(doc.getLength(), string, style);
+        } catch (BadLocationException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -242,12 +287,13 @@ public class Dictionary extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField inputText;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextPane listResults;
     private javax.swing.JList<String> listWords;
     private javax.swing.JLabel nameDictionary;
     private javax.swing.JButton search;
     // End of variables declaration//GEN-END:variables
     private DefaultListModel<String> listModel;
+    private javax.swing.JFrame frame = new JFrame();
 
 }
