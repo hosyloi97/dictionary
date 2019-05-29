@@ -15,10 +15,8 @@ public class Dictionary {
 
     private String wordOrigin;
     private String wordSpelling;
-    private ArrayList<String> wordTypes = new ArrayList<String>();
-    private ArrayList<String> wordEquals = new ArrayList<String>();
-    private ArrayList<String> wordMeans = new ArrayList<String>();
-    private ArrayList<WordEqual> wordEqualList= new ArrayList<WordEqual>();
+    private String wordType;
+    public ArrayList<String> wordMeans = new ArrayList<String>();
 
     public Dictionary(String wordOrigin, String wordSpelling) {
         this.wordOrigin = wordOrigin;
@@ -44,37 +42,11 @@ public class Dictionary {
         this.wordSpelling = wordSpelling;
     }
 
-    public ArrayList<String> getWordTypes() {
-        return wordTypes;
+    public String getWordType() {
+        return wordType;
     }
 
-    public void setWordTypes(ArrayList<String> wordTypes) {
-        this.wordTypes = wordTypes;
+    public void setWordType(String wordType) {
+        this.wordType = wordType;
     }
-
-    public ArrayList<String> getWordEquals() {
-        return wordEquals;
-    }
-
-    public void setWordEquals(ArrayList<String> wordEquals) {
-        this.wordEquals = wordEquals;
-    }
-
-    public ArrayList<String> getWordMeans() {
-        return wordMeans;
-    }
-
-    public void setWordMeans(ArrayList<String> wordMeans) {
-        this.wordMeans = wordMeans;
-    }
-
-    public ArrayList<WordEqual> getWordEqualList() {
-        return wordEqualList;
-    }
-
-    public void setWordEqualList(ArrayList<WordEqual> wordEqualList) {
-        this.wordEqualList = wordEqualList;
-    }
-    
-    
 }

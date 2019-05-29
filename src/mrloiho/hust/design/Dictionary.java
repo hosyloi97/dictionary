@@ -6,13 +6,21 @@
 package mrloiho.hust.design;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import mrloiho.hust.file_io.FileIO;
+import static mrloiho.hust.file_io.FileIO.checkType;
 
 /**
  *
  * @author Mr Loi Ho
  */
 public class Dictionary extends javax.swing.JFrame {
+
+    private static ArrayList<mrloiho.hust.model.Dictionary> listDics = new ArrayList<mrloiho.hust.model.Dictionary>();
+    static String dirName = "F://PROJECT/EasyDictionary/Eng-Vie_database.txt";
 
     /**
      * Creates new form Dictionary
@@ -34,11 +42,16 @@ public class Dictionary extends javax.swing.JFrame {
         inputText = new javax.swing.JTextField();
         search = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listResult = new javax.swing.JList<>();
+        listWords = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         nameDictionary.setFont(new java.awt.Font("Palatino Linotype", 3, 18)); // NOI18N
         nameDictionary.setText("Eng- Vie Dictionary");
@@ -68,13 +81,8 @@ public class Dictionary extends javax.swing.JFrame {
             }
         });
 
-        listResult.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
-        listResult.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(listResult);
+        listWords.setFont(new java.awt.Font("Palatino Linotype", 0, 14)); // NOI18N
+        jScrollPane1.setViewportView(listWords);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -87,8 +95,8 @@ public class Dictionary extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(inputText)
@@ -96,9 +104,9 @@ public class Dictionary extends javax.swing.JFrame {
                         .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(12, 12, 12))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 134, Short.MAX_VALUE)
+                .addGap(0, 272, Short.MAX_VALUE)
                 .addComponent(nameDictionary)
-                .addGap(215, 215, 215))
+                .addGap(248, 248, 248))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,7 +118,7 @@ public class Dictionary extends javax.swing.JFrame {
                     .addComponent(search))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)))
         );
 
@@ -145,10 +153,18 @@ public class Dictionary extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, inputText);
     }//GEN-LAST:event_searchActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        listModel = new DefaultListModel<String>();
+        listWords.setModel(listModel);
+        for(int i=0; i<listDics.size();i++){
+            listModel.addElement(listDics.get(i).getWordOrigin());
+        }
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -172,6 +188,9 @@ public class Dictionary extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        /*read File from input data "dirName"*/
+        listDics = FileIO.readFile(dirName);
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -179,14 +198,56 @@ public class Dictionary extends javax.swing.JFrame {
             }
         });
     }
+//     public static String testInput(String line) {
+//        mrloiho.hust.model.Dictionary d = new mrloiho.hust.model.Dictionary();
+//        int index = 0;
+//        String temp = new String();
+//        if ((index = line.indexOf("##")) >= 0) {
+//            d.setWordOrigin(line.substring(0, index).trim());
+//            line = line.substring(index + 2, line.length()).trim();
+//        }
+//        if ((index = line.indexOf("#*")) >= 0) {
+//            d.setWordSpelling(line.substring(0, index).trim());
+//            line = line.substring(index + 2, line.length()).trim();
+//        }
+//
+//        if (checkType(line)) {
+//            index = line.indexOf("|-");
+//            temp = line.substring(0, index).trim();
+//            line = line.substring(index, line.length()).trim();
+//            d.setWordType(temp);
+//        }
+//        while (!line.isEmpty()) {
+//            if ((index = line.indexOf("|-")) >= 0) {
+//                int newIndex = line.indexOf(";");
+//                if (newIndex >= 0) {
+//                    temp = line.substring(2, newIndex);
+//                    line = line.substring(newIndex + 1, line.length());
+//                    d.wordMeans.add(temp);
+//                }
+//                else {
+//                temp = line.substring(2, line.length()).trim();
+//                d.wordMeans.add(temp);
+//                line = "";
+//            }
+//             } else {
+//                temp = line.substring(0, line.length()).trim();
+//                d.wordMeans.add(temp);
+//                line = "";
+//            }
+//        }
+//        return "import data done";
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField inputText;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JList<String> listResult;
+    private javax.swing.JList<String> listWords;
     private javax.swing.JLabel nameDictionary;
     private javax.swing.JButton search;
     // End of variables declaration//GEN-END:variables
+    private DefaultListModel<String> listModel;
+
 }

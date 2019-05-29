@@ -29,15 +29,26 @@ public class ReInputData {
         BufferedReader br = new BufferedReader(inputStreamReader);
         Writer out = new BufferedWriter(outputStreamWriter);
         String line = new String();
+        int i = 0;
         while ((line = br.readLine()) != null) {
-            int index = line.indexOf("||@");
-            if (index >= 0) {
-                out.write(line.substring(0, index));
-                out.write("\n");
-            } else {
+            int index = line.indexOf(";;");
+//            if (index >= 0) {
+//                out.write(line.substring(0, index));
+//                out.write("\n");
+//            } else {
+//                out.write(line);
+//                out.write("\n");
+//ghi lai file text tru cac hang co ky tu ";;"
+//            if (index == -1) {
+//                out.write(line);
+//                out.write("\n");
+//            }
+//ghi lai file text co index dau dong
+            {
+                i++;
+                out.write(i + "   ");
                 out.write(line);
                 out.write("\n");
-
             }
         }
         fileInputStream.close();
@@ -50,7 +61,7 @@ public class ReInputData {
 
     public static void main(String[] args) throws IOException {
         String fileIn = "F://PROJECT/EasyDictionary/Eng-Vie_database.txt";
-        String fileOut = "F://PROJECT/EasyDictionary/Eng-Vie_database_new.txt";
+        String fileOut = "F://PROJECT/EasyDictionary/Eng-Vie_database_new1.txt";
         reInputFile(fileIn, fileOut);
     }
 }

@@ -27,21 +27,4 @@ public class Main {
 
     public Main() {
     }
-
-    public void printDics(ArrayList<Dictionary> list) {
-        for (int i = 0; i < list.size(); i++) {
-            printDic(list.get(i));
-        }
-    }
-
-    public void printDic(Dictionary dictionary) {
-        System.out.println(dictionary.getWordOrigin() + "  "
-                + dictionary.getWordType() + "  " + dictionary.getWordMean());
-    }
-
-//    public static void main(String[] args) throws Exception {
-//        String dirName = "F://PROJECT/EasyDictionary/input.txt";
-//        FileIO.readFile(dirName);
-//    }
-
 }
