@@ -22,7 +22,6 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import mrloiho.hust.file_io.FileIO;
-import static mrloiho.hust.file_io.FileIO.checkType;
 import mrloiho.hust.model.Dictionary;
 
 /**
@@ -32,10 +31,18 @@ import mrloiho.hust.model.Dictionary;
 public class Main extends javax.swing.JFrame {
 
     private static ArrayList<Dictionary> listDics = new ArrayList<Dictionary>();
-    public static String dirName = "F://PROJECT/EasyDictionary/Eng-Vie_database - Copy.txt";
+    public static String dirName = "F://PROJECT/EasyDictionary/Eng-Vie_database.txt";
     public String inputStr = "";
     public ArrayList<String> listWordOrigins = new ArrayList<String>();
     DefaultListModel<String> mod;
+
+    public static ArrayList<Dictionary> getListDics() {
+        return listDics;
+    }
+
+    public static void setListDics(ArrayList<Dictionary> listDics) {
+        Main.listDics = listDics;
+    }
 
     /**
      * Creates new form Dictionary
@@ -70,6 +77,7 @@ public class Main extends javax.swing.JFrame {
         listWords = new javax.swing.JList<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         listResults = new javax.swing.JTextPane();
+        add = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -103,17 +111,20 @@ public class Main extends javax.swing.JFrame {
         });
 
         listWords.setFont(new java.awt.Font("Palatino Linotype", 0, 18)); // NOI18N
-        listWords.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                listWordsValueChanged(evt);
-            }
-        });
         sp.setViewportView(listWords);
 
         listResults.setContentType("text/html"); // NOI18N
         listResults.setFont(new java.awt.Font("Palatino Linotype", 0, 18)); // NOI18N
         listResults.setFocusable(false);
         jScrollPane3.setViewportView(listResults);
+
+        add.setFont(new java.awt.Font("Palatino Linotype", 0, 18)); // NOI18N
+        add.setText("Add");
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,30 +133,37 @@ public class Main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(sp)
+                        .addComponent(sp, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(inputText)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(inputText)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(nameDictionary)
+                                .addGap(286, 286, 286)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(search, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addComponent(add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(12, 12, 12))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(351, 351, 351)
-                .addComponent(nameDictionary)
-                .addContainerGap(330, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(nameDictionary)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(add)
+                    .addComponent(nameDictionary))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inputText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(search))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(sp, javax.swing.GroupLayout.PREFERRED_SIZE, 629, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -196,15 +214,13 @@ public class Main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_inputTextKeyTyped
 
-    private void listWordsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listWordsValueChanged
-        //        if (!listWords.isSelectionEmpty()) {
-            //            int index = listWords.getSelectedIndex();
-            //            Dictionary dic = listDics.get(index);
-            //            listResults.setText("<font color=blue>" + dic.getWordOrigin() + "</font>");
-            //        }
-    }//GEN-LAST:event_listWordsValueChanged
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        AddNewWord addNewWord= new AddNewWord();
+        addNewWord.setVisible(true);
+        
+    }//GEN-LAST:event_addActionPerformed
 
-    private String getInputText(java.awt.event.KeyEvent evt) {
+    public  String getInputText(java.awt.event.KeyEvent evt) {
         String text = inputText.getText().trim().toLowerCase();
         text += evt.getKeyChar();
         text = text.trim().toLowerCase();
@@ -221,7 +237,7 @@ public class Main extends javax.swing.JFrame {
     public void showTextResult(Dictionary dic) {
         String result = "";
         result = "<font color=black><Strong>" + dic.getWordOrigin() + "</strong></font>"
-                + dic.getWordSpelling()
+                + " "+dic.getWordSpelling()
                 + "<br><u>" + "<font color=Red>" + dic.getWordType() + "</font>" + "</u></br>";
         if (dic.wordMeans.size() == 1) {
             for (int i = 0; i < dic.wordMeans.size(); i++) {
@@ -303,6 +319,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add;
     private javax.swing.JTextField inputText;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextPane listResults;

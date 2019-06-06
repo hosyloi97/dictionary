@@ -18,6 +18,17 @@ public class Dictionary {
     private String wordType;
     public ArrayList<String> wordMeans = new ArrayList<String>();
 
+    public ArrayList<String> getWordMeans() {
+        return wordMeans;
+    }
+
+    public void setWordMeans(ArrayList<String> wordMeans) {
+        this.wordMeans = wordMeans;
+    }
+    public void setWordMeans1(String s){
+        this.wordMeans.add(s);
+    }
+
     public Dictionary(String wordOrigin, String wordSpelling) {
         this.wordOrigin = wordOrigin;
         this.wordSpelling = wordSpelling;

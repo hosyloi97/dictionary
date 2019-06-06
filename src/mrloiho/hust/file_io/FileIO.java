@@ -22,23 +22,23 @@ public class FileIO {
 //    Main main = new Main
     private static ArrayList<Dictionary> listDics = new ArrayList<Dictionary>();
 
-    public static Boolean checkType(String string) {
-        Boolean check = true;
-        if ((string.indexOf("danh từ")) == -1
-                && (string.indexOf("tính từ")) == -1) {
-            if ((string.indexOf("động từ")) == -1
-                    && (string.indexOf("trạng từ")) == -1) {
-                if ((string.indexOf("phó từ") == -1)
-                        && (string.indexOf("giới từ")) == -1) {
-                    {
-                        check = false;
-                    }
-                }
-            }
-        }
-        System.out.println("check" + check);
-        return check;
-    }
+//    public static Boolean checkType(String string) {
+//        Boolean check = true;
+//        if ((string.indexOf("danh từ")) == -1
+//                && (string.indexOf("tính từ")) == -1) {
+//            if ((string.indexOf("động từ")) == -1
+//                    && (string.indexOf("trạng từ")) == -1) {
+//                if ((string.indexOf("phó từ") == -1)
+//                        && (string.indexOf("giới từ")) == -1) {
+//                    {
+//                        check = false;
+//                    }
+//                }
+//            }
+//        }
+//        System.out.println("check" + check);
+//        return check;
+//    }
 
     public static ArrayList<Dictionary> readFile(String fileName) throws IOException {
         FileInputStream fileInputStream = new FileInputStream(fileName);
@@ -59,10 +59,9 @@ public class FileIO {
             line = line.substring(index + 2, line.length()).trim();
         }
 
-        if (checkType(line)) {
-            index = line.indexOf("|-");
+        if ((index = line.indexOf("|-"))>= 0) {
             temp = line.substring(0, index).trim();
-            line = line.substring(index, line.length()).trim();
+            line = line.substring(index+2, line.length()).trim();
             d.setWordType(temp);
         }
         while (!line.isEmpty()) {
