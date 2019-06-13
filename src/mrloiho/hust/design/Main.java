@@ -199,7 +199,6 @@ public class Main extends javax.swing.JFrame {
 
     private void inputTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputTextKeyTyped
         String text = getInputText(evt);
-        System.out.println("input: " + text);
         for (int i = 0; i < mod.size(); i++) {
             String val = "" + mod.getElementAt(i);
             if (val.startsWith(text)) {
@@ -215,12 +214,12 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_inputTextKeyTyped
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        AddNewWord addNewWord= new AddNewWord();
+        AddNewWord addNewWord = new AddNewWord();
         addNewWord.setVisible(true);
-        
+
     }//GEN-LAST:event_addActionPerformed
 
-    public  String getInputText(java.awt.event.KeyEvent evt) {
+    public String getInputText(java.awt.event.KeyEvent evt) {
         String text = inputText.getText().trim().toLowerCase();
         text += evt.getKeyChar();
         text = text.trim().toLowerCase();
@@ -237,7 +236,7 @@ public class Main extends javax.swing.JFrame {
     public void showTextResult(Dictionary dic) {
         String result = "";
         result = "<font color=black><Strong>" + dic.getWordOrigin() + "</strong></font>"
-                + " "+dic.getWordSpelling()
+                + " " + dic.getWordSpelling()
                 + "<br><u>" + "<font color=Red>" + dic.getWordType() + "</font>" + "</u></br>";
         if (dic.wordMeans.size() == 1) {
             for (int i = 0; i < dic.wordMeans.size(); i++) {
@@ -315,6 +314,7 @@ public class Main extends javax.swing.JFrame {
                 }
             }
             return listWords;
+
         }
     }
 
